@@ -10,7 +10,7 @@ Typically, three kinds of fences are used: full fence, acquire fence and release
 
 ## Full fence
 
-![](./assets/1a35441096327759f006c53c3a2c1fb412ae976c.png)
+![](./assets/full_fence.png)
 
 ## Acquire fence
 
