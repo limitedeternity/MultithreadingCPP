@@ -1,10 +1,35 @@
+/*
+ * CppMem equivalent:
+
+int main() {
+  atomic_int ptr = 0;
+  atomic_int atoData = 0;
+
+  {{{ {
+      int p = 0x1337;
+      atoData.store(2014, mo_relaxed);
+      ptr.store(p, mo_release);
+      }
+  |||
+      {
+      int p2;
+      p2 = ptr.load(mo_acquire).readsvalue(0x1337);
+      atoData.load(mo_relaxed);
+      }
+  }}}
+
+  return 0;
+}
+*/
+
 #include <atomic>
-#include <thread>
 #include <iostream>
 #include <string>
 
-std::atomic<std::string*> ptr;
-std::atomic<int> atoData;
+#include "scoped_thread.hpp"
+
+std::atomic<std::string*> ptr = nullptr;
+std::atomic<int> atoData = 0;
 
 void producer() {
     auto p = new std::string("Sample text");
@@ -32,10 +57,8 @@ void consumer() {
 }
 
 int main(void) {
-    std::thread t1(producer);
-    std::thread t2(consumer);
-    t1.join();
-    t2.join();
+    scoped_thread{std::thread(producer)};
+    scoped_thread{std::thread(consumer)};
 
     return 0;
 }
