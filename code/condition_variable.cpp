@@ -31,6 +31,6 @@ void prepare_data() {
 }
 
 int main() {
-    scoped_thread t1{std::thread(waiting_worker)};
-    scoped_thread t2{std::thread(prepare_data)};
+    scoped_thread t1(waiting_worker);
+    scoped_thread t2(prepare_data);
 }

@@ -62,8 +62,8 @@ void consumer() {
 }
 
 int main(void) {
-    scoped_thread{std::thread(producer)};
-    scoped_thread{std::thread(consumer)};
+    scoped_thread t1(producer);
+    scoped_thread t2(consumer);
 
     return 0;
 }
